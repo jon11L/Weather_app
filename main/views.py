@@ -28,7 +28,6 @@ def home(request):
 
     if request.method == 'POST':
         city =request.POST['city']
-        # city ='Berlin'
 
         # Get the API key from the .env file
         WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
@@ -49,20 +48,19 @@ def home(request):
 
                 country = data['sys']['country']
                 temperature = round(data['main']['temp'])
-                # temperature = data['main']['temp']
                 description = data['weather'][0]['description']
                 # icon = data['weather'][0]['icon']
                 humidity = data['main']['humidity']
-                # wind_speed = data['wind']['speed']
                 wind_speed = round(data['wind']['speed'])
 
-                sunrise = data['sys']['sunrise'] # need to convert value in time
-                sunset = data['sys']['sunset'] # need to convert value in time
+                # sunrise = data['sys']['sunrise'] # need to convert value in time
+                sunrise = datetime.fromtimestamp(data['sys']['sunrise']).strftime('%H:%M:%S (%p)')
+                print(f"sunrise: {sunrise}")
+
+                sunset = datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M:%S (%p)')
                 clouds = data['clouds']['all'] # need to check percentage and display a reuls type :'cloudy, sunny' etc....
 
-                today = datetime.now()
-                print(today)
-
+                today = datetime.now().strftime('(%A) %d %b %Y')
 
                 weather_data = {
                     'city': city,
@@ -74,14 +72,15 @@ def home(request):
                     'wind_speed': wind_speed,
                     'sunrise': sunrise,
                     'sunset': sunset,
-                    'clouds': clouds
+                    'clouds': clouds,
+                    'today': today,
+                    
                 }
 
                 return render(request, 'main/home.html', {'weather_data': weather_data})
             else:
                 return render(request, 'main/home.html', {'error': 'Failed to fetch weather data.'})
 
-            # return render(request, 'home.html', {})
         except Exception as e:
             print(f"Error occurred while fetching weather data: {str(e)}")
             return render(request, 'main/home.html', {'error': 'Failed to fetch weather data due to an error.'})

@@ -33,7 +33,10 @@
 
         {% if weather_data %}
 
-        <div class="card" style="margin-top: 50px;">
+        <div class="card" style="margin: 50px; padding:  0px 40px;">
+            <h5 style="padding-top: 20px; text-align: center;">{{ weather_data.today }} </h5>
+            <br>
+
             <div class="card-title"  style="display: inline-flex; justify-content: center;">
                 <h2>{{ weather_data.city.capitalize }}</h2>
                 <p><small>({{ weather_data.country }})</small></p>
