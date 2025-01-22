@@ -75,12 +75,6 @@ def home(request):
                 # calculate daylight duration in hours and minutes
                 daylight_hours = daylight_duration.seconds // 3600
                 daylight_minutes = (daylight_duration.seconds % 3600) // 60
-                
-                # daylight_hours = math.floor(daylight_duration.total_seconds() / 3600)
-                # daylight_minutes = math.floor((daylight_duration.total_seconds() % 3600) / 60)
-                
-                print(f"daylight duration: {daylight_hours} hours and {daylight_minutes} minutes")
-
 
                 weather_data = {
                     'city': city,
@@ -91,14 +85,13 @@ def home(request):
                     'icon': icon,
                     'humidity': humidity,
                     'wind_speed': wind_speed,
-                    'sunrise': sunrise.strftime('%H:%M:%S'),
-                    'sunset': sunset.strftime('%H:%M:%S'),
+                    'sunrise': sunrise.strftime('%H:%M'),
+                    'sunset': sunset.strftime('%H:%M'),
                     'clouds': clouds,
                     'today': today,
                     'current_time': current_time,
                     'daylight_hours': daylight_hours,
                     'daylight_minutes': daylight_minutes,
-                    
                     
                 }
 

@@ -3,11 +3,11 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container" style="background-color: lightgray;">
 
     <div style="justify-items: center; padding-top: 150px;">
     
-        <h1 style="color: rgb(209, 209, 69);">Weather App</h1>
+        <h1 style="color: cadetblue">Weather App</h1>
 
         <div style="padding-top: 50px;">
         <form method="POST" action="{% url 'main:home' %}">
@@ -17,23 +17,10 @@
         </form>
         </div>
 
-        <!-- {% if weather_data %}
-            {% if weather_data.error %}
-                <p style="color: red;">{{ weather_data.error }}</p>
-            {% else %}
-                <div class="weather-info">
-                    <h2>Weather in {{ weather_data.city }}</h2>
-                    <img class="weather-icon" src="http://openweathermap.org/img/wn/{{ weather_data.icon }}@2x.png" alt="Weather Icon">
-                    <p><strong>Temperature:</strong> {{ weather_data.temperature }}°C</p>
-                    <p><strong>Condition:</strong> {{ weather_data.description|capfirst }}</p>
-                </div>
-            {% endif %}
-        {% endif %}
-    </div> -->
 
         {% if weather_data %}
 
-        <div class="card" style="margin: 50px; padding:  0px 40px; width: 40%; text-align: center;">
+        <div class="card" style="margin-top: 40px; padding:  0px 0px; width: 30%; text-align: center;  background-color: rgb(198, 237, 250);">
             <div>
                 <h5 style="padding-top: 20px;">{{ weather_data.today }} </h5>
                 <p><small>{{ weather_data.current_time }}</small></p>
@@ -45,16 +32,16 @@
                 <img src="{{ weather_data.icon }}" style="width: fit-content;" alt="Weather Icon">
             </div>
             
+            <h5 style="margin-right: 25px; color: cadetblue;"><strong>{{ weather_data.temperature }}°C  ({{ weather_data.description }})</strong></h5>
 
             <div class="card-body">
-                <div style="display: flex; flex-wrap: wrap; text-align: left;  justify-content:start;">
-                    <p style="margin-right: 25px;"><strong>Temperature:</strong> {{ weather_data.temperature }}°C  ({{ weather_data.description }})</p>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
                     <br>
-                    <p><strong>feels like:</strong> {{ weather_data.feels_like }}°C</p>
+                    <p style="margin-right: 25px;"><strong>feels like:</strong> {{ weather_data.feels_like }}°C</p>
 
                     <p style="margin-right: 25px;"><strong>Humidity:</strong> {{ weather_data.humidity }}%</p>
                     <p style="margin-right: 25px;"><strong>Wind Speed:</strong> {{ weather_data.wind_speed }} Km/h</p>
-                    <p><strong>Cloud:</strong> {{ weather_data.clouds }}% </p>
+                    <p style="margin-right: 25px;"><strong>Cloud:</strong> {{ weather_data.clouds }}% </p>
                     <p style="margin-right: 25px;"><strong>Sunrise:</strong> {{ weather_data.sunrise }}</p>
                     <p><strong>Sunset:</strong> {{ weather_data.sunset }}</p>
                     <p style="margin-right: 25px;"><strong>Daylight Duration:</strong> {{ weather_data.daylight_hours }} hours {{ weather_data.daylight_minutes }} minutes</p>
