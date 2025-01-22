@@ -33,22 +33,32 @@
 
         {% if weather_data %}
 
-        <div class="card" style="margin: 50px; padding:  0px 40px;">
-            <h5 style="padding-top: 20px; text-align: center;">{{ weather_data.today }} </h5>
-            <br>
-
-            <div class="card-title"  style="display: inline-flex; justify-content: center;">
-                <h2>{{ weather_data.city.capitalize }}</h2>
-                <p><small>({{ weather_data.country }})</small></p>
+        <div class="card" style="margin: 50px; padding:  0px 40px; width: 40%; text-align: center;">
+            <div>
+                <h5 style="padding-top: 20px;">{{ weather_data.today }} </h5>
+                <p><small>{{ weather_data.current_time }}</small></p>
             </div>
 
+            <div class="card-title" style="display: flex; justify-content: center;">
+                <h2 style="margin-top: 25px;">{{ weather_data.city.capitalize }}</h2>
+                <p style="margin-top: 30px;"><small>({{ weather_data.country }})</small></p>
+                <img src="{{ weather_data.icon }}" style="width: fit-content;" alt="Weather Icon">
+            </div>
+            
+
             <div class="card-body">
-                <p><strong>Temperature:</strong> {{ weather_data.temperature }}°C  ({{ weather_data.description }})</p>
-                <p><strong>Humidity:</strong> {{ weather_data.humidity }}%</p>
-                <p><strong>Wind Speed:</strong> {{ weather_data.wind_speed }} km/h</p>
-                <p><strong>Sunrise:</strong> {{ weather_data.sunrise }}</p>
-                <p><strong>Sunset:</strong> {{ weather_data.sunset }}</p>
-                <p><strong>Cloud:</strong> {{ weather_data.clouds }}% </p>
+                <div style="display: flex; flex-wrap: wrap; text-align: left;  justify-content:start;">
+                    <p style="margin-right: 25px;"><strong>Temperature:</strong> {{ weather_data.temperature }}°C  ({{ weather_data.description }})</p>
+                    <br>
+                    <p><strong>feels like:</strong> {{ weather_data.feels_like }}°C</p>
+
+                    <p style="margin-right: 25px;"><strong>Humidity:</strong> {{ weather_data.humidity }}%</p>
+                    <p style="margin-right: 25px;"><strong>Wind Speed:</strong> {{ weather_data.wind_speed }} Km/h</p>
+                    <p><strong>Cloud:</strong> {{ weather_data.clouds }}% </p>
+                    <p style="margin-right: 25px;"><strong>Sunrise:</strong> {{ weather_data.sunrise }}</p>
+                    <p><strong>Sunset:</strong> {{ weather_data.sunset }}</p>
+                    <p style="margin-right: 25px;"><strong>Daylight Duration:</strong> {{ weather_data.daylight_hours }} hours {{ weather_data.daylight_minutes }} minutes</p>
+                </div>
             </div>
 
         </div>

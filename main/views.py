@@ -3,7 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 # import math
 
@@ -42,38 +42,63 @@ def home(request):
             print(response)
 
             if response.status_code == 200:
-                print(f"request weather data, successful!")
                 data = response.json()
+                print(f"request weather data, successful!")
                 print(f"weather data:\n\ {data}\n")
 
                 country = data['sys']['country']
                 temperature = round(data['main']['temp'])
+                feels_like = round(data['main']['feels_like'])
                 description = data['weather'][0]['description']
-                # icon = data['weather'][0]['icon']
                 humidity = data['main']['humidity']
-                wind_speed = round(data['wind']['speed'])
-
-                # sunrise = data['sys']['sunrise'] # need to convert value in time
-                sunrise = datetime.fromtimestamp(data['sys']['sunrise']).strftime('%H:%M:%S (%p)')
-                print(f"sunrise: {sunrise}")
-
-                sunset = datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M:%S (%p)')
+                wind_speed = round(float(data['wind']['speed'])*3.6)
                 clouds = data['clouds']['all'] # need to check percentage and display a reuls type :'cloudy, sunny' etc....
 
-                today = datetime.now().strftime('(%A) %d %b %Y')
+                # icon image retrieved by the code given in the response
+                icon_code = data['weather'][0]['icon']
+                icon = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
+
+
+                # time zone data
+                timezone_offset = data['timezone'] # in seconds
+                city_timezone = timezone(timedelta(seconds=timezone_offset))
+
+                # display today's date accoridng to the timezone
+                today = datetime.now(tz=city_timezone).strftime('(%A) %d %b %Y')
+                current_time = datetime.now(tz=city_timezone).strftime('%H:%M:%S (%p)')
+                
+                
+                sunrise = datetime.fromtimestamp(data['sys']['sunrise'], tz=city_timezone) #  .strftime('%H:%M:%S ')
+                sunset = datetime.fromtimestamp(data['sys']['sunset'], tz=city_timezone) #   .strftime('%H:%M:%S (%p)')
+                daylight_duration = sunset - sunrise # .strftime('%H:%M:%S')
+                
+                # calculate daylight duration in hours and minutes
+                daylight_hours = daylight_duration.seconds // 3600
+                daylight_minutes = (daylight_duration.seconds % 3600) // 60
+                
+                # daylight_hours = math.floor(daylight_duration.total_seconds() / 3600)
+                # daylight_minutes = math.floor((daylight_duration.total_seconds() % 3600) / 60)
+                
+                print(f"daylight duration: {daylight_hours} hours and {daylight_minutes} minutes")
+
 
                 weather_data = {
                     'city': city,
                     'country': country,
                     'temperature': temperature,
+                    'feels_like': feels_like,
                     'description': description,
-                    # 'icon': icon,
+                    'icon': icon,
                     'humidity': humidity,
                     'wind_speed': wind_speed,
-                    'sunrise': sunrise,
-                    'sunset': sunset,
+                    'sunrise': sunrise.strftime('%H:%M:%S'),
+                    'sunset': sunset.strftime('%H:%M:%S'),
                     'clouds': clouds,
                     'today': today,
+                    'current_time': current_time,
+                    'daylight_hours': daylight_hours,
+                    'daylight_minutes': daylight_minutes,
+                    
                     
                 }
 
