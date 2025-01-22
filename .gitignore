@@ -1,0 +1,9 @@
+# virtual environment
+.wenv
+
+# secret variables
+.env
+
+# cache
+__pycache__/
+*.py[cod]

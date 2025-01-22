@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+    <div style="justify-items: center; padding-top: 150px;">
+    
+        <h1 style="color: rgb(209, 209, 69);">Weather App</h1>
+
+        <div style="padding-top: 50px;">
+        <form method="POST" action="{% url 'main:home' %}">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter city name" required>
+            <button type="submit">Get Weather</button>
+        </form>
+        </div>
+
+        <!-- {% if weather_data %}
+            {% if weather_data.error %}
+                <p style="color: red;">{{ weather_data.error }}</p>
+            {% else %}
+                <div class="weather-info">
+                    <h2>Weather in {{ weather_data.city }}</h2>
+                    <img class="weather-icon" src="http://openweathermap.org/img/wn/{{ weather_data.icon }}@2x.png" alt="Weather Icon">
+                    <p><strong>Temperature:</strong> {{ weather_data.temperature }}°C</p>
+                    <p><strong>Condition:</strong> {{ weather_data.description|capfirst }}</p>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div> -->
+
+        {% if weather_data %}
+
+        <div class="card" style="margin-top: 50px;">
+            <div class="card-title"  style="display: inline-flex; justify-content: center;">
+                <h2>{{ weather_data.city.capitalize }}</h2>
+                <p><small>({{ weather_data.country }})</small></p>
+            </div>
+
+            <div class="card-body">
+                <p><strong>Temperature:</strong> {{ weather_data.temperature }}°C  ({{ weather_data.description }})</p>
+                <p><strong>Humidity:</strong> {{ weather_data.humidity }}%</p>
+                <p><strong>Wind Speed:</strong> {{ weather_data.wind_speed }} km/h</p>
+                <p><strong>Sunrise:</strong> {{ weather_data.sunrise }}</p>
+                <p><strong>Sunset:</strong> {{ weather_data.sunset }}</p>
+                <p><strong>Cloud:</strong> {{ weather_data.clouds }}% </p>
+            </div>
+
+        </div>
+    {% else %}
+    <p style="margin: 100px;">no city selected</p>
+    {% endif %}
+    </div>
+
+</div>
+
+
+<!-- <img src="{% static 'img/weather_icons/' %}{{ weather_icon }}.png" alt="{{ description }}"> -->
+
+
+{% endblock %}
